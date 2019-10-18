@@ -93,5 +93,7 @@ int main()
 	}
 	avl->preOrder(root);
 	cout<<endl;
+	delete avl;
+	delete root;
 	return 0;
 }
