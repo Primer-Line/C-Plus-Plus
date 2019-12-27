@@ -1,17 +1,17 @@
 #include<iostream>
-#include<fstream>//ÎÄ¼şÁ÷
-#include<sstream>//×Ö·û´®Á÷
+#include<fstream>//æ–‡ä»¶æµ
+#include<sstream>//å­—ç¬¦ä¸²æµ
 #include<string>
 #include<vector>//STL vector
 using namespace std;
-//¶¨ÒåÃ¶¾ÙÀàĞÍ ±íÊ¾ĞÔ±ğ
+//å®šä¹‰æšä¸¾ç±»å‹ è¡¨ç¤ºæ€§åˆ«
 typedef enum Sex
 {
-	MALE = 0,//ÄĞĞÔ
-	FEMALE = 1,//Å®ĞÔ
-	DEFAULT = 2//Î´ÌîĞ´
+	MALE = 0,//ç”·æ€§
+	FEMALE = 1,//å¥³æ€§
+	DEFAULT = 2//æœªå¡«å†™
 }sex;
-class Player//Íæ¼ÒÀà
+class Player//ç©å®¶ç±»
 {
 public : 
 	int getId()
@@ -97,7 +97,7 @@ private :
 	int age;
 	int headPortrait_index;
 };
-class PlayerManager//Íæ¼Ò¹ÜÀíÀà
+class PlayerManager//ç©å®¶ç®¡ç†ç±»
 {
 public :
 	vector<Player>players;
@@ -107,30 +107,27 @@ public :
 	Player findPlayer_MAX_DiamondsCount();
 	Player findPlayer_MIN_IntegralCount();
 	vector<Player>searchUserName(string subName);
-	void showPlayerList(vector<Player>players)//ÏÔÊ¾Íæ¼ÒÁĞ±í
+	void showPlayerList(vector<Player>players)//æ˜¾ç¤ºç©å®¶åˆ—è¡¨
 	{
 		Player* player = players.begin();
 		for (;player != players.end();player++)
 		{
-			string s = player->getSex()==MALE?"ÄĞ":(player->getSex()==FEMALE?"Å®":"Î´ÌîĞ´");
+			string s = player->getSex()==MALE?"ç”·":(player->getSex()==FEMALE?"å¥³":"æœªå¡«å†™");
 			cout<<player->getId()<<"\t"<<player->getName()<<"\t"<<player->getRank()<<"\t"<<player->getGoldCoin_count()<<"\t"<<
 			player->getIntegral_count()<<"\t"<<player->getDiamonds_count()<<"\t"<<s<<"\t"<<player->getAge()<<"\t"<<
 			player->getHeadPortrait_index()<<endl;
 		}
 	}
-	int getPlayerNum()//»ñÈ¡Íæ¼ÒÊıÁ¿
+	int getPlayerNum()//è·å–ç©å®¶æ•°é‡
 	{
 		int num = 0;
-		for (Player* player = this->players.begin();player != this->players.end();player++)
-		{
-			++num;
-		}
+		for (Player* player = this->players.begin();player != this->players.end();player++)++num;
 		return num;
 	}		
 };
-void PlayerManager::initPlayers()//³õÊ¼»¯Íæ¼Ò
+void PlayerManager::initPlayers()//åˆå§‹åŒ–ç©å®¶
 {
-	Player players[10];//³õÊ¼»¯10¸öÍæ¼Ò¶ÔÏó
+	Player players[10];//åˆå§‹åŒ–10ä¸ªç©å®¶å¯¹è±¡
 	Player* player = players;
 	int id;
 	string name;
@@ -143,7 +140,7 @@ void PlayerManager::initPlayers()//³õÊ¼»¯Íæ¼Ò
 	int headPortrait_index;
 	for (int i = 0; i < 10; i++)
 	{
-		cout<<"ÊäÈëµÚ"<<i+1<<"¸öÍæ¼ÒµÄÊôĞÔ:"<<endl;
+		cout<<"è¾“å…¥ç¬¬"<<i+1<<"ä¸ªç©å®¶çš„å±æ€§:"<<endl;
 		cin>>id>>name>>rank>>goldCoin_count>>integral_count>>diamonds_count>>s>>age>>headPortrait_index;
 		sex s = s;
 		(*(player+i)).setId(id);
@@ -157,21 +154,18 @@ void PlayerManager::initPlayers()//³õÊ¼»¯Íæ¼Ò
 		(*(player+i)).setSex(s);
 		this->players.push_back(*(player+i));
 	}
-	cout<<"Íæ¼Ò³õÊ¼»¯Íê±Ï"<<endl;
+	cout<<"ç©å®¶åˆå§‹åŒ–å®Œæ¯•"<<endl;
 }
-//Í¨¹ıid²éÕÒÍæ¼Ò
+//é€šè¿‡idæŸ¥æ‰¾ç©å®¶
 Player* PlayerManager::findPlayer(int id)
 {
 	for (Player* player = this->players.begin();player != this->players.end();player++)
 	{
-		if ((*player).getId() == id)
-		{
-			return player;
-		}
+		if ((*player).getId() == id)return player;
 	}
 	return NULL;	
 }
-//²éÕÒ×êÊ¯×î¶àµÄÍæ¼Ò
+//æŸ¥æ‰¾é’»çŸ³æœ€å¤šçš„ç©å®¶
 Player PlayerManager:: findPlayer_MAX_DiamondsCount()
 {
 	Player* player = this->players.begin();
@@ -187,7 +181,7 @@ Player PlayerManager:: findPlayer_MAX_DiamondsCount()
 	}
 	return p;
 }
-//²éÕÒ»ı·Ö×îÉÙµÄÍæ¼Ò
+//æŸ¥æ‰¾ç§¯åˆ†æœ€å°‘çš„ç©å®¶
 Player PlayerManager::findPlayer_MIN_IntegralCount()
 {
 	Player* player = this->players.begin();
@@ -203,24 +197,21 @@ Player PlayerManager::findPlayer_MIN_IntegralCount()
 	}
 	return p;
 }
-//²éÕÒÓëÖ¸¶¨×Ó´®ÏàÆ¥ÅäµÄÍæ¼ÒÃû³Æ
+//æŸ¥æ‰¾ä¸æŒ‡å®šå­ä¸²ç›¸åŒ¹é…çš„ç©å®¶åç§°
 vector<Player> PlayerManager::searchUserName(string subName)
 {
 	vector<Player>v;
 	Player* player = this->players.begin();
 	for (;player != this->players.end();player++)
 	{
-		if ((*player).getName().rfind(subName) != -1)//²éÕÒ×Ó´®Ê×´Î³öÏÖµÄË÷Òı ²»´æÔÚ·µ»Ø-1
-		{
-			v.push_back(*player);
-		}
+		if ((*player).getName().rfind(subName) != -1)v.push_back(*player);//æŸ¥æ‰¾å­ä¸²é¦–æ¬¡å‡ºç°çš„ç´¢å¼• ä¸å­˜åœ¨è¿”å›-1
 	}
 	return v;
 }
 class HeightPlayerManager : public PlayerManager
 {
 public :
-	int atoi(string str)//×Ö·û´®×ªÕûÊı
+	int atoi(string str)//å­—ç¬¦ä¸²è½¬æ•´æ•°
 	{
 		stringstream ss;
 		int num;
@@ -228,7 +219,7 @@ public :
 		ss>>num;
 		return num;
 	}
-	string itoa(int num)//ÕûÊı×ª×Ö·û´®
+	string itoa(int num)//æ•´æ•°è½¬å­—ç¬¦ä¸²
 	{
 		stringstream ss;
 		string str;
@@ -238,7 +229,7 @@ public :
 	}
 	vector<string> split(string str);
 	virtual vector<string> toString();
-	virtual Player toObject(string s)//½«×Ö·û´®×ª»»ÎªÍæ¼Ò¶ÔÏó
+	virtual Player toObject(string s)//å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºç©å®¶å¯¹è±¡
 	{
 		Player p;
 		vector<string>v = split(s);
@@ -249,7 +240,7 @@ public :
 		p.setGoldCoin_count(atoi(str[3]));
 		p.setIntegral_count(atoi(str[4]));
 		p.setDiamonds_count(atoi(str[5]));
-		sex sx = !str[6].compare("ÄĞ")?MALE:(!str[6].compare("Å®")?FEMALE:DEFAULT);
+		sex sx = !str[6].compare("ç”·")?MALE:(!str[6].compare("å¥³")?FEMALE:DEFAULT);
 		p.setSex(sx);
 		p.setAge(atoi(str[7]));
 		p.setHeadPortrait_index(atoi(str[8]));
@@ -266,12 +257,12 @@ vector<string> HeightPlayerManager::split(string str)
 {
 	vector<string>s;
 	int index;
-	while ((index = str.find_first_of(":"))!=-1)//²éÕÒ·ûºÅ:Ê×´Î³öÏÖµÄÎ»ÖÃ
+	while ((index = str.find_first_of(":"))!=-1)//æŸ¥æ‰¾ç¬¦å·:é¦–æ¬¡å‡ºç°çš„ä½ç½®
 	{
-		s.push_back(str.substr(0, index));//Ç°²¿·ÖµÄ×Ö·û´®²åÈë×Ö·û´®ÁĞ±í
-		str = str.substr(index+2, str.length());//½«": "×Ó´®É¾³ı
+		s.push_back(str.substr(0, index));//å‰éƒ¨åˆ†çš„å­—ç¬¦ä¸²æ’å…¥å­—ç¬¦ä¸²åˆ—è¡¨
+		str = str.substr(index+2, str.length());//å°†": "å­ä¸²åˆ é™¤
 	}
-	s.push_back(str);//×îºó»¹Ê£Ò»¸ö×Ó´®
+	s.push_back(str);//æœ€åè¿˜å‰©ä¸€ä¸ªå­ä¸²
 	return s;
 }
 vector<string> HeightPlayerManager::toString()
@@ -281,14 +272,14 @@ vector<string> HeightPlayerManager::toString()
 	Player* player = players.begin();
 	for (;player != players.end();player++)
 	{
-		//×Ö·û´®Á¬½Ó
+		//å­—ç¬¦ä¸²è¿æ¥
 		str.append(itoa(player->getId())+": ");
 		str.append(player->getName().append(": "));
 		str.append(itoa(player->getRank())+": ");
 		str.append(itoa(player->getGoldCoin_count())+": ");
 		str.append(itoa(player->getIntegral_count())+": ");
 		str.append(itoa(player->getDiamonds_count())+": ");
-		string s = player->getSex()==MALE?"ÄĞ":(player->getSex()==FEMALE?"Å®":"Î´ÌîĞ´");
+		string s = player->getSex()==MALE?"ç”·":(player->getSex()==FEMALE?"å¥³":"æœªå¡«å†™");
 		str.append(s.append(": "));	
 		str.append(itoa(player->getAge())+": ");
 		str.append(itoa(player->getHeadPortrait_index())+"");
@@ -297,11 +288,11 @@ vector<string> HeightPlayerManager::toString()
 	}
 	return v;
 }
-//×÷Îª¿ìËÙÅÅĞòº¯ÊıÖ¸Õë²ÎÊı
+//ä½œä¸ºå¿«é€Ÿæ’åºå‡½æ•°æŒ‡é’ˆå‚æ•°
 int cmp(const void* a, const void* b)
 {
 	Player* m = (Player*)a,*n = (Player*)b;
-	if(m->getRank()<n->getRank())return -1;//±È½ÏµÈ¼¶
+	if(m->getRank()<n->getRank())return -1;//æ¯”è¾ƒç­‰çº§
 	if(m->getRank() == n->getRank())return 0; 
 	return 1;
 }
@@ -316,13 +307,13 @@ bool HeightPlayerManager::addPlayer(string str)
 {
 	if(str.size()==0)return false;
 	Player p = toObject(str);
-	Player* player = findPlayer(p.getId());//Í¨¹ıid²éÑ¯Íæ¼Ò
-	if(!player)//µ±Íæ¼Ò²»´æÔÚÊ± Ö±½Ó²åÈëÁĞ±í
+	Player* player = findPlayer(p.getId());//é€šè¿‡idæŸ¥è¯¢ç©å®¶
+	if(!player)//å½“ç©å®¶ä¸å­˜åœ¨æ—¶ ç›´æ¥æ’å…¥åˆ—è¡¨
 	{
 		players.push_back(p);
 		return true;
 	}
-	//³ıÁËidÖ®Íâ ÆäÓàĞÅÏ¢¾ùĞŞ¸Ä
+	//é™¤äº†idä¹‹å¤– å…¶ä½™ä¿¡æ¯å‡ä¿®æ”¹
 	player->setAge(p.getAge());
 	player->setSex(p.getSex());
 	player->setDiamonds_count(p.getDiamonds_count());
@@ -333,46 +324,43 @@ bool HeightPlayerManager::addPlayer(string str)
 	player->setRank(p.getRank());
 	return false;
 }
-//´Ó´óµ½Ğ¡ÅÅĞò
+//ä»å¤§åˆ°å°æ’åº
 vector<Player> HeightPlayerManager::fromBigToSmall_OrderPlayers()
 {
 	Player* p = players.begin();
-	qsort(p,players.size(),sizeof(Player),cmp1);//¿ìËÙÅÅĞò
+	qsort(p,players.size(),sizeof(Player),cmp1);//å¿«é€Ÿæ’åº
 	return players;
 }
-//´ÓĞ¡´ó´óÅÅĞò
+//ä»å°å¤§å¤§æ’åº
 vector<Player> HeightPlayerManager::fromSmallToBig_OrderPlayers()
 {
 	Player* p = players.begin();
 	qsort(p,players.size(),sizeof(Player),cmp);
 	return players;
 }
-//Ğ´ÈëÎÄ¼ş
+//å†™å…¥æ–‡ä»¶
 void HeightPlayerManager::playersToFile()
 {
 	ofstream of;
-	of.open("C:/user_info.txt",fstream::out);//´ò¿ªÎÄ¼ş
-	vector<string>v = toString();//×ª»»Îª×Ö·û´®¼¯ºÏ
-	for(string* s = v.begin();s != v.end();s++)
-	{
-		of<<*s<<"\n";//ÖğĞĞĞ´Èë
-	}
-	of.close();//¹Ø±ÕÎÄ¼şÁ÷
+	of.open("C:/user_info.txt",fstream::out);//æ‰“å¼€æ–‡ä»¶
+	vector<string>v = toString();//è½¬æ¢ä¸ºå­—ç¬¦ä¸²é›†åˆ
+	for(string* s = v.begin();s != v.end();s++)of<<*s<<"\n";//é€è¡Œå†™å…¥
+	of.close();//å…³é—­æ–‡ä»¶æµ
 }
-//Ö÷º¯Êı²âÊÔ
+//ä¸»å‡½æ•°æµ‹è¯•
 int main()
 {
 	PlayerManager* pm = new PlayerManager();
 	pm->initPlayers();
 	HeightPlayerManager* hpm = new HeightPlayerManager();
 	hpm->players = pm->players;
-	Player p =  hpm->toObject("1: aaa: 22: 22: 23: 10: ÄĞ: 1: 0");
-	Player p1 =  hpm->toObject("2: aab: 222: 221: 230: 101: ÄĞ: 100: 0");
+	Player p =  hpm->toObject("1: aaa: 22: 22: 23: 10: ç”·: 1: 0");
+	Player p1 =  hpm->toObject("2: aab: 222: 221: 230: 101: ç”·: 100: 0");
 	hpm->players.push_back(p);
 	hpm->players.push_back(p1);
-	bool result = hpm->addPlayer("20: aab: 222: 221: 230: 101: Å®: 100: 0");
-	if(result)cout<<"Ìí¼Ó³É¹¦"<<endl;
-	else cout<<"Ìí¼ÓÊ§°Ü"<<endl;
+	bool result = hpm->addPlayer("20: aab: 222: 221: 230: 101: å¥³: 100: 0");
+	if(result)cout<<"æ·»åŠ æˆåŠŸ"<<endl;
+	else cout<<"æ·»åŠ å¤±è´¥"<<endl;
 	hpm->playersToFile();
 	pm->players = hpm->players;
 	vector<Player>v = pm->searchUserName("b");
