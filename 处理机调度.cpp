@@ -16,14 +16,14 @@ private:
 	UINT service_time;
 	UINT complete_time;
 	UINT turnover_time;
-    double turnover_time_with_weight;
+    	double turnover_time_with_weight;
 public:
-	//¹¹Ôìº¯ÊıÏÔÊ¾²ÎÊı»¯
+	//æ„é€ å‡½æ•°æ˜¾ç¤ºå‚æ•°åŒ–
 	explicit Process(std::string process_name,UINT arrive_time,UINT service_time) : process_name(process_name),arrive_time(arrive_time),
 	service_time(service_time),complete_time(0),current_complete_time(0){}
 	Process(){}
 	~Process(){}
-	//ÓÑÔªÄÚÁªº¯Êı ±È½Ïµ½´ïÊ±¼ä
+	//å‹å…ƒå†…è”å‡½æ•° æ¯”è¾ƒåˆ°è¾¾æ—¶é—´
 	friend inline int cmp1(const void* a,const void* b)
 	{
 		Process* m = (Process*)a,*n = (Process*)b;
@@ -31,15 +31,15 @@ public:
 		if(m->arrive_time == n->arrive_time)return 0;
 		return 1;
 	}
-	//±È½ÏÓÅÏÈÈ¨
+	//æ¯”è¾ƒä¼˜å…ˆæƒ
 	friend inline int cmp2(const void* a,const void* b)
 	{
 		Process* m = (Process*)a,*n = (Process*)b;
-		if(m->arrive_time * n->service_time > n->arrive_time * m->service_time)return -1;//µÈ´ıÊ±¼ä / ·şÎñÊ±¼ä
+		if(m->arrive_time * n->service_time > n->arrive_time * m->service_time)return -1;//ç­‰å¾…æ—¶é—´ / æœåŠ¡æ—¶é—´
 		if(m->arrive_time * n->service_time == n->arrive_time * m->service_time)return 0;
 		return 1;
 	}
-	//±È½Ï×÷Òµ
+	//æ¯”è¾ƒä½œä¸š
 	friend inline bool company(const void* a, const void* b,const void* c)
 	{
 		Process* x = (Process*)a,*y = (Process*)b,*z = (Process*)c;
@@ -55,7 +55,7 @@ public:
 	void MFQ(Process* process,const UINT count) const;
 };
 typedef bool (*cmp)(const void* a, const void* b,const void* c);
-template<class T,typename V>//·ºĞÍÖĞ´ø¶àÖÖÀàĞÍ °üÀ¨»ù±¾Êı¾İÀàĞÍ¡¢Àà¡¢½á¹¹Ìå¡¢ÁªºÏÌå¡¢º¯ÊıÖ¸ÕëµÈµÈ
+template<class T,typename V>//æ³›å‹ä¸­å¸¦å¤šç§ç±»å‹ åŒ…æ‹¬åŸºæœ¬æ•°æ®ç±»å‹ã€ç±»ã€ç»“æ„ä½“ã€è”åˆä½“ã€å‡½æ•°æŒ‡é’ˆç­‰ç­‰
 class priority_queue
 {
 private:
@@ -74,7 +74,7 @@ public:
 		*a = *b;
 		*b = temp;
 	}
-	//µ÷ÕûÓÅÏÈ¶ÓÁĞ
+	//è°ƒæ•´ä¼˜å…ˆé˜Ÿåˆ—
 	void adjustHeap(cmp c,const T elem)//diffrent
 	{
 		UINT size = this->vec.size();//(vec.end()-vec.begin)/sizeof(T)
@@ -116,16 +116,16 @@ bool Process::operator < (const void* elemType) const
 	Process* process = (Process*)elemType;
 	return this->complete_time < process->complete_time;
 }
-void Process::FCFS(Process* process,const UINT count) const//ÏÈÀ´ÏÈ·şÎñ °´ÕÕµ½´ïÊ±¼äÅÅĞò
+void Process::FCFS(Process* process,const UINT count) const//å…ˆæ¥å…ˆæœåŠ¡ æŒ‰ç…§åˆ°è¾¾æ—¶é—´æ’åº
 {
-	std::cout<<"FCFSËã·¨"<<std::endl;
+	std::cout<<"FCFSç®—æ³•"<<std::endl;
 	qsort(process,count,sizeof(Process),cmp1);
 	std::queue<Process>q;
 	for (UINT i = 0; i < count; i++)q.push(process[i]);                                                                                                                            
 	UINT start_time = 0;
 	double all_turnover_time = 0.0;
-    double all_turnover_time_with_weight = 0.0;
-	//std::cout<<"½ø³ÌÃû"<<"\t"<<"µ½´ïÊ±¼ä"<<"\t"<<"·şÎñÊ±¼ä"<<"\t"<<"Íê³ÉÊ±¼ä"<<"\t"<<"ÖÜ×ªÊ±¼ä"<<"\t"<<"¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+   	double all_turnover_time_with_weight = 0.0;
+	//std::cout<<"è¿›ç¨‹å"<<"\t"<<"åˆ°è¾¾æ—¶é—´"<<"\t"<<"æœåŠ¡æ—¶é—´"<<"\t"<<"å®Œæˆæ—¶é—´"<<"\t"<<"å‘¨è½¬æ—¶é—´"<<"\t"<<"å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	while (!q.empty())
 	{
 		Process p = q.front();
@@ -138,13 +138,13 @@ void Process::FCFS(Process* process,const UINT count) const//ÏÈÀ´ÏÈ·şÎñ °´ÕÕµ½´ï
 		all_turnover_time_with_weight += p.turnover_time_with_weight;
 		std::cout<<p.process_name<<"\t"<<p.arrive_time<<"\t"<<p.service_time<<"\t"<<p.complete_time<<"\t"<<p.turnover_time<<"\t"<<p.turnover_time_with_weight<<std::endl;		
 	}
-	//std::cout<<"Æ½¾ùÖÜ×ª"<<"\t"<<"Æ½¾ù¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+	//std::cout<<"å¹³å‡å‘¨è½¬"<<"\t"<<"å¹³å‡å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	//std::cout<<"\t"<<all_turnover_time/count<<"\t"<<all_turnover_time_with_weight/count<<std::endl;
 	printf("\t%2.1f\t%2.1f\n",all_turnover_time/count,all_turnover_time_with_weight/count);
 }
 void Process::SPF(Process* process,const UINT count) const
 {
-	std::cout<<"SPFËã·¨"<<std::endl;
+	std::cout<<"SPFç®—æ³•"<<std::endl;
 	std::vector<Process>vec;
 	std::queue<Process>q;
 	for (UINT i = 0; i < count; i++)vec.push_back(process[i]);
@@ -155,8 +155,8 @@ void Process::SPF(Process* process,const UINT count) const
 	priority_queue<Process,cmp>*p_q = new priority_queue<Process,cmp>(vec,company,elem);
 	UINT start_time = 0;
 	double all_turnover_time = 0.0;
-    double all_turnover_time_with_weight = 0.0;
-	//std::cout<<"½ø³ÌÃû"<<"\t"<<"µ½´ïÊ±¼ä"<<"\t"<<"·şÎñÊ±¼ä"<<"\t"<<"Íê³ÉÊ±¼ä"<<"\t"<<"ÖÜ×ªÊ±¼ä"<<"\t"<<"¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+    	double all_turnover_time_with_weight = 0.0;
+	//std::cout<<"è¿›ç¨‹å"<<"\t"<<"åˆ°è¾¾æ—¶é—´"<<"\t"<<"æœåŠ¡æ—¶é—´"<<"\t"<<"å®Œæˆæ—¶é—´"<<"\t"<<"å‘¨è½¬æ—¶é—´"<<"\t"<<"å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	while (!p_q->empty())
 	{
 		Process p = p_q->pop();
@@ -167,23 +167,23 @@ void Process::SPF(Process* process,const UINT count) const
 		p.turnover_time_with_weight = (double)p.turnover_time / (double)p.service_time;
 		all_turnover_time_with_weight += p.turnover_time_with_weight;
 		std::cout<<p.process_name<<"\t"<<p.arrive_time<<"\t"<<p.service_time<<"\t"<<p.complete_time<<"\t"<<p.turnover_time<<"\t"<<p.turnover_time_with_weight<<std::endl;		
-		p_q->elem = p;//¸üĞÂ
+		p_q->elem = p;//æ›´æ–°
 	}
-	//std::cout<<"Æ½¾ùÖÜ×ª"<<"\t"<<"Æ½¾ù¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+	//std::cout<<"å¹³å‡å‘¨è½¬"<<"\t"<<"å¹³å‡å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	//std::cout<<"\t"<<all_turnover_time/count<<"\t"<<all_turnover_time_with_weight/count<<std::endl;
 	printf("\t%2.1f\t%2.1f\n",all_turnover_time/count,all_turnover_time_with_weight/count);
 	delete p_q;
 }
 void Process::HRN(Process* process,const UINT count) const
 {
-	std::cout<<"HRNËã·¨"<<std::endl;
+	std::cout<<"HRNç®—æ³•"<<std::endl;
 	qsort(process,count,sizeof(Process),cmp2);
 	std::queue<Process>q;
 	for (UINT i = 0; i < count; i++)q.push(process[i]);                                                                                                                          
 	UINT start_time = 0;
 	double all_turnover_time = 0.0;
-    double all_turnover_time_with_weight = 0.0;
-	//std::cout<<"½ø³ÌÃû"<<"\t"<<"µ½´ïÊ±¼ä"<<"\t"<<"·şÎñÊ±¼ä"<<"\t"<<"Íê³ÉÊ±¼ä"<<"\t"<<"ÖÜ×ªÊ±¼ä"<<"\t"<<"¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+    	double all_turnover_time_with_weight = 0.0;
+	//std::cout<<"è¿›ç¨‹å"<<"\t"<<"åˆ°è¾¾æ—¶é—´"<<"\t"<<"æœåŠ¡æ—¶é—´"<<"\t"<<"å®Œæˆæ—¶é—´"<<"\t"<<"å‘¨è½¬æ—¶é—´"<<"\t"<<"å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	while (!q.empty())
 	{
 		Process p = q.front();
@@ -196,19 +196,19 @@ void Process::HRN(Process* process,const UINT count) const
 		all_turnover_time_with_weight += p.turnover_time_with_weight;
 		std::cout<<p.process_name<<"\t"<<p.arrive_time<<"\t"<<p.service_time<<"\t"<<p.complete_time<<"\t"<<p.turnover_time<<"\t"<<p.turnover_time_with_weight<<std::endl;		
 	}
-	//std::cout<<"Æ½¾ùÖÜ×ª"<<"\t"<<"Æ½¾ù¡È¨ÖÜ×ªÊ±¼ä"<<std::endl;
+	//std::cout<<"å¹³å‡å‘¨è½¬"<<"\t"<<"å¹³å‡å¸¯æƒå‘¨è½¬æ—¶é—´"<<std::endl;
 	//std::cout<<"\t"<<all_turnover_time/count<<"\t"<<all_turnover_time_with_weight/count<<std::endl;
 	printf("\t%2.1f\t%2.1f\n",all_turnover_time/count,all_turnover_time_with_weight/count);
 }
 void Process::RR(Process* process,const UINT count,const UINT time_slice) const
 {
-	std::cout<<"RRËã·¨"<<std::endl;
+	std::cout<<"RRç®—æ³•"<<std::endl;
 	qsort(process,count,sizeof(Process),cmp1);
 	std::queue<Process>q;
 	for(int i = 0; i < count; i++)q.push(*(process+i));
-	UINT wait_time = 0;//µÈ´ıÊ±¼ä
+	UINT wait_time = 0;//ç­‰å¾…æ—¶é—´
 	double all_turnover_time = 0.0;
-    double all_turnover_time_with_weight = 0.0;
+    	double all_turnover_time_with_weight = 0.0;
 	Process p;
 	while(!q.empty())
 	{	
@@ -237,7 +237,7 @@ void Process::RR(Process* process,const UINT count,const UINT time_slice) const
 }
 void Process::MFQ(Process* process,const UINT count) const
 {
-	std::cout<<"MFQËã·¨"<<std::endl;
+	std::cout<<"MFQç®—æ³•"<<std::endl;
 	qsort(process,count,sizeof(Process),cmp1);
 	std::queue<Process>*q = new std::queue<Process>[count];//class diffrent from struct
 	UINT* time_slice = new UINT[count];
@@ -249,7 +249,7 @@ void Process::MFQ(Process* process,const UINT count) const
 	}
 	UINT size = 0,k = 0,await_time = 0;
 	double all_turnover_time = 0.0;
-    double all_turnover_time_with_weight = 0.0;
+    	double all_turnover_time_with_weight = 0.0;
 	while (size < count)
 	{
 		while(!q[k].empty())
