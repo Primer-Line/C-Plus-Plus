@@ -279,6 +279,7 @@ void Process::MFQ(Process* process,const UINT count) const
 	//std::cout<<"\t"<<all_turnover_time/count<<"\t"<<all_turnover_time_with_weight/count<<std::endl;
 	printf("\t%2.1f\t%2.1f\n",all_turnover_time/count,all_turnover_time_with_weight/count);
 	delete time_slice;
+	delete []q;
 }
 int main()
 {
@@ -314,5 +315,6 @@ int main()
 	p->RR(process,size,1);
 	p->MFQ(process,size);
 	delete p;
+	delete []process;
 	return 0;
 }
